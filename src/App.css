@@ -1,0 +1,32 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Quattrocento Sans", sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Oswald", sans-serif;
+}
+
+p:empty {
+  display: none;
+}
+
+.split_cms > p {
+  margin-bottom: 1rem;
+}
+/* #features {
+  padding: 4rem 0;
+} */
+
+.errors {
+  display: block;
+  margin: 10px 0 5px 10px;
+  color: #020001;
+  font-weight: bold;
+}
