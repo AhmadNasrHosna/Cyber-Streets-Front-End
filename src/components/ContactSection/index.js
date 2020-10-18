@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, useField, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { FaFacebookSquare, FaYoutube } from "react-icons/fa";
+import { FaFacebookSquare } from "react-icons/fa";
 import axios from "axios";
 
 import {
@@ -86,17 +86,6 @@ const sendMail = async (values, actions) => {
   } else if (response.data.status === "fail") {
     actions.setSubmitting(false);
   }
-
-  // .then((response) => {
-
-  //   alert("Message sent!");
-  //   actions.resetForm();
-  //   actions.setSubmitting(false);
-  // })
-  // .catch((error) => {
-  //   alert("Message failed to send");
-  //   actions.setSubmitting(false);
-  // });
 };
 
 const Contact = () => {
@@ -137,12 +126,15 @@ const Contact = () => {
                         Streets impact on the community.
                       </ContactInfoParagraph>
                       <IconWrapper>
-                        <Icon href="https://www.facebook.com/" target="_blank">
+                        <Icon
+                          href="https://www.facebook.com/CyberStreets/"
+                          target="_blank"
+                        >
                           <FaFacebookSquare color="#000" />
                         </Icon>
-                        <Icon href="https://www.youtube.com/" target="_blank">
+                        {/* <Icon href="https://www.youtube.com/" target="_blank">
                           <FaYoutube color="#000" />
-                        </Icon>
+                        </Icon> */}
                       </IconWrapper>
                     </div>
                   </TextWrapper>

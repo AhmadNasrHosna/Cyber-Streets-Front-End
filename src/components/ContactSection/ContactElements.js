@@ -191,5 +191,5 @@ export const IconWrapper = styled.div`
 
 export const Icon = styled.a`
   font-size: 2rem;
-  padding: 10px 0;
+  padding: 10px 5px;
 `;

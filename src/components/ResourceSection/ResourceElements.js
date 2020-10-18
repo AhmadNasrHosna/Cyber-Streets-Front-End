@@ -126,7 +126,7 @@ export const LinkContainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
   grid-gap: 2rem;
-  min-height: 300px;
+
   /* background: red; */
 
   @media screen and (max-width: 768px) {

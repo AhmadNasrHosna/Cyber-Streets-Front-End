@@ -5,7 +5,7 @@ import styled from "styled-components";
 const LoadingContainer = styled.div`
   display: flex;
   height: 100%;
-  min-height: 300px;
+
   width: 100%;
   justify-content: center;
   align-items: center;

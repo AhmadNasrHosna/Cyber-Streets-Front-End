@@ -22,36 +22,14 @@ import {
 } from "./ResourceElements";
 import Loading from "../Loading";
 
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, NetworkStatus } from "@apollo/client";
 
 import { FaVideo, FaBook, FaGlobe } from "react-icons/fa";
 
-const Resource = ({ category, limit, setLimit }) => {
-  const RESOURCE_COLLECTION = gql`
-    query Resources($category: String!, $limit: Int) {
-      resourceCollection(
-        where: { category_contains: $category }
-        limit: $limit
-      ) {
-        total
-        items {
-          type
-          category
-          title
-          link
-          bgColor
-          color
-        }
-      }
-    }
-  `;
-
-  const { loading, error, data, fetchMore } = useQuery(RESOURCE_COLLECTION, {
-    variables: { category, limit },
-    fetchPolicy: "cache-and-network",
-    notifyOnNetworkStatusChange: true,
-  });
-  if (loading && !data) return <Loading />;
+const Resource = ({ data, networkStatus, error }) => {
+  if (networkStatus < 7) return <Loading />;
+  console.log(networkStatus);
+  console.log(NetworkStatus);
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -76,29 +54,6 @@ const Resource = ({ category, limit, setLimit }) => {
           </LinkWrapper>
         ))}
       </LinkContainer>
-      <ButtonWrapper>
-        <LoadMore
-          onClick={() =>
-            fetchMore({
-              variables: {
-                limit: setLimit((prevState) => prevState + 5),
-              },
-              updateQuery: (prev, { fetchMoreResult }) => {
-                if (!fetchMoreResult) return prev;
-                return Object.assign({}, prev, {
-                  data: fetchMoreResult.items,
-                });
-              },
-            })
-          }
-          disabled={
-            data.resourceCollection.total ===
-            data.resourceCollection.items.length
-          }
-        >
-          Load more
-        </LoadMore>
-      </ButtonWrapper>
     </>
   );
 };
@@ -106,6 +61,35 @@ const Resource = ({ category, limit, setLimit }) => {
 const ResourceSection = () => {
   const [category, setCategory] = useState("");
   const [limit, setLimit] = useState(5);
+
+  const RESOURCE_COLLECTION = gql`
+    query Resources($category: String!, $limit: Int) {
+      resourceCollection(
+        where: { category_contains: $category }
+        limit: $limit
+      ) {
+        total
+        items {
+          type
+          category
+          title
+          link
+          bgColor
+          color
+        }
+      }
+    }
+  `;
+
+  const { error, data, fetchMore, networkStatus } = useQuery(
+    RESOURCE_COLLECTION,
+    {
+      variables: { category, limit },
+      fetchPolicy: "cache-and-network",
+      notifyOnNetworkStatusChange: true,
+    }
+  );
+  console.log(networkStatus);
   return (
     <ResourceContainer lightBg={true} id="resource">
       <ResourcesWrapper>
@@ -165,7 +149,39 @@ const ResourceSection = () => {
             <FormOption value="OTHER">Other</FormOption>
           </FormSelect>
         </Form>
-        <Resource category={category} limit={limit} setLimit={setLimit} />
+        <Resource
+          category={category}
+          data={data}
+          limit={limit}
+          error={error}
+          networkStatus={networkStatus}
+        />
+        {networkStatus === NetworkStatus.fetchMore && <Loading />}
+        {data && (
+          <ButtonWrapper>
+            <LoadMore
+              onClick={() =>
+                fetchMore({
+                  variables: {
+                    limit: setLimit((prevState) => prevState + 5),
+                  },
+                  updateQuery: (prev, { fetchMoreResult }) => {
+                    if (!fetchMoreResult) return prev;
+                    return Object.assign({}, prev, {
+                      data: fetchMoreResult.items,
+                    });
+                  },
+                })
+              }
+              disabled={
+                data.resourceCollection.total ===
+                data.resourceCollection.items.length
+              }
+            >
+              Load more
+            </LoadMore>
+          </ButtonWrapper>
+        )}
       </ResourcesWrapper>
     </ResourceContainer>
   );
