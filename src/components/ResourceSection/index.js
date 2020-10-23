@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
 import {
   ResourceContainer,
   ResourcesWrapper,
@@ -13,83 +13,28 @@ import {
   Form,
   FormSelect,
   FormOption,
-  LinkContainer,
-  LinkWrapper,
-  LinkIcon,
-  LinkTitle,
-  LoadMore,
-  ButtonWrapper,
+  // LinkContainer,
+  // LinkWrapper,
+  // LinkIcon,
+  // LinkTitle,
+  // LoadMore,
+  // ButtonWrapper,
 } from "./ResourceElements";
-import Loading from "../Loading";
 
-import { useQuery, gql, NetworkStatus } from "@apollo/client";
+const ResourceSection = ({ data, fetchMore }) => {
 
-import { FaVideo, FaBook, FaGlobe } from "react-icons/fa";
 
-const Resource = ({ data, networkStatus, error }) => {
-  if (networkStatus < 7) return <Loading />;
-  console.log(networkStatus);
-  console.log(NetworkStatus);
-  if (error) return <p>Error: {error}</p>;
+  const handleClick = useCallback(() => {
+    fetchMore({
+      variables: {
+        skip:
+          data 
+            ? data.length
+            : 0,
+      },
+    });
+  }, [fetchMore, data]);
 
-  return (
-    <>
-      <LinkContainer>
-        {data.resourceCollection.items.map((resource) => (
-          <LinkWrapper
-            href={resource.link}
-            target="_blank"
-            key={resource.title}
-          >
-            <LinkIcon bgColor={resource.bgColor} color={resource.color}>
-              {resource.type === "video" ? (
-                <FaVideo color={resource.color} />
-              ) : resource.type === "article" ? (
-                <FaBook color={resource.color} />
-              ) : (
-                <FaGlobe color={resource.color} />
-              )}
-            </LinkIcon>
-            <LinkTitle>{resource.title}</LinkTitle>
-          </LinkWrapper>
-        ))}
-      </LinkContainer>
-    </>
-  );
-};
-
-const ResourceSection = () => {
-  const [category, setCategory] = useState("");
-  const [limit, setLimit] = useState(5);
-
-  const RESOURCE_COLLECTION = gql`
-    query Resources($category: String!, $limit: Int) {
-      resourceCollection(
-        where: { category_contains: $category }
-        limit: $limit
-      ) {
-        total
-        items {
-          type
-          category
-          title
-          link
-          bgColor
-          color
-        }
-      }
-    }
-  `;
-
-  const { error, data, fetchMore, networkStatus } = useQuery(
-    RESOURCE_COLLECTION,
-    {
-      variables: { category, limit },
-      fetchPolicy: "cache-and-network",
-      notifyOnNetworkStatusChange: true,
-    }
-  );
-  console.log(networkStatus);
   return (
     <ResourceContainer lightBg={true} id="resource">
       <ResourcesWrapper>
@@ -118,10 +63,10 @@ const ResourceSection = () => {
         </ResourceRow>
         <Form action="">
           <FormSelect
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setLimit(5);
-            }}
+          // onChange={(e) => {
+          //   setCategory(e.target.value);
+          //   // setLimit(5);
+          // }}
           >
             <FormOption value="">Filter by category</FormOption>
             <FormOption value="MEDIA">Media</FormOption>
@@ -149,39 +94,17 @@ const ResourceSection = () => {
             <FormOption value="OTHER">Other</FormOption>
           </FormSelect>
         </Form>
-        <Resource
-          category={category}
-          data={data}
-          limit={limit}
-          error={error}
-          networkStatus={networkStatus}
-        />
-        {networkStatus === NetworkStatus.fetchMore && <Loading />}
-        {data && (
-          <ButtonWrapper>
-            <LoadMore
-              onClick={() =>
-                fetchMore({
-                  variables: {
-                    limit: setLimit((prevState) => prevState + 5),
-                  },
-                  updateQuery: (prev, { fetchMoreResult }) => {
-                    if (!fetchMoreResult) return prev;
-                    return Object.assign({}, prev, {
-                      data: fetchMoreResult.items,
-                    });
-                  },
-                })
-              }
-              disabled={
-                data.resourceCollection.total ===
-                data.resourceCollection.items.length
-              }
-            >
-              Load more
-            </LoadMore>
-          </ButtonWrapper>
-        )}
+        <div className="list">
+          {data.map((resource, i) => (
+            <div key={resource.title} className="item">
+              {resource.title}
+            </div>
+          ))}
+        </div>
+
+        <button className="button" onClick={handleClick}>
+          Fetch!
+        </button>
       </ResourcesWrapper>
     </ResourceContainer>
   );

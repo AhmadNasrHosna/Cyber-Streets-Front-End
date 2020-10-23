@@ -10,34 +10,50 @@ import Resource from "../components/ResourceSection";
 import Contact from "../components/ContactSection";
 import Footer from "../components/Footer";
 
-const SPLIT_COLLECTION = gql`
-  query {
-    splitSectionCollection(order: splitId_ASC) {
-      items {
-        splitId
-        lightBg
-        left
-        lightText
-        darkText
-        image {
-          url
-        }
-        alt
-        heading
-        content {
-          json
-        }
-      }
-    }
-  }
+const MASS_COLLECTION = gql`
+query($skip: Int) {
+  resourceCollection(limit: 5, skip: $skip ) {
+ items {
+   type
+   category
+   title
+   link
+   bgColor
+   color
+ }
+},
+splitSectionCollection(order: splitId_ASC) {
+ items {
+   splitId
+   lightBg
+   left
+   lightText
+   darkText
+   image {
+     url
+   }
+   alt
+   heading
+   content {
+     json
+   }
+ }
+} 
+
+}
 `;
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { loading, error, data } = useQuery(SPLIT_COLLECTION);
+
+  const { loading, error, data, fetchMore } = useQuery(MASS_COLLECTION, {
+    variables: {
+      skip: 0,
+    },
+  });
 
   if (loading) return <Loading />;
-  if (error) return <p>Error :(</p>;
+  if (error) return <p>Error</p>;
 
   const toggle = () => {
     setIsOpen(!isOpen);
@@ -51,7 +67,7 @@ const Home = () => {
       {data.splitSectionCollection.items.map((item) => {
         return <Split item={item} key={item.splitId} />;
       })}
-      <Resource />
+      <Resource data={data.resourceCollection.items} fetchMore={fetchMore}/>
       <Contact />
       <Footer />
     </>
