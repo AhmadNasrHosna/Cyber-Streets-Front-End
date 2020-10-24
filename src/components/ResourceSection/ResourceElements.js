@@ -1,13 +1,15 @@
 import styled from "styled-components";
 
 export const ResourceContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
   color: #fff;
   background: ${({ lightBg }) => (lightBg ? "#f9f9f9" : "#020001")};
   position: relative;
   width: 100%;
   padding: 5rem 0;
   overflow: hidden;
-  display: flex;
+
   justify-content: center;
   align-items: center;
 
@@ -123,15 +125,24 @@ export const FormOption = styled.option`
 
 export const LinkContainer = styled.div`
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto;
   grid-gap: 2rem;
+  margin: 0 1.5rem;
 
   /* background: red; */
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
 
+  }
+
+  @media screen and (max-width: 992px) {
+    grid-template-columns: repeat(2, 1fr);
+
+  }
   @media screen and (max-width: 768px) {
     grid-template-columns: 1fr;
-    margin: 0 1.5rem;
+ 
   }
 `;
 
@@ -140,7 +151,7 @@ export const LinkWrapper = styled.a`
   text-align: center;
   align-items: center;
   background: #fff;
-  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.6);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
   transition: all 0.2s ease-in-out;
   text-decoration: none;
 
@@ -164,7 +175,7 @@ export const LinkIcon = styled.h1`
 export const LinkTitle = styled.p`
   cursor: pointer;
   width: 100%;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #020001;
 `;
 
@@ -178,19 +189,19 @@ export const ButtonWrapper = styled.div`
 
 export const LoadMore = styled.button`
   background: #002350;
-  width: 25%;
+  
   color: #fff;
   font-size: 1.2rem;
-  padding: 0.9rem 1.5rem;
+  padding: 14px 48px;
   border-radius: 25px;
-  box-shadow: 10px 15px 10px rgba(0, 0, 0, 0.6);
+  box-shadow: 5px 10px 15px rgba(0, 0, 0, 0.6);
   transition: 0.3s all ease-in-out;
   outline: none;
   cursor: pointer;
 
-  @media screen and (max-width: 768px) {
+  /* @media screen and (max-width: 768px) {
     width: 50%;
-  }
+  } */
 
   &:hover {
     transform: translateY(-3px);

@@ -9,13 +9,16 @@ import {
   HeroBtnWrapper,
   ArrowForward,
   ArrowRight,
+  PictureBg,
 } from "./HeroElements";
+import { useDeviceDetect } from "../../utils/utilities";
 
 import { Button } from "../ButtonElement";
 import Video from "../../assets/videos/video.mp4";
 
 const HeroSection = () => {
   const [hover, setHover] = useState(false);
+  const { isMobile } = useDeviceDetect();
 
   const onHover = () => {
     setHover(!hover);
@@ -23,14 +26,17 @@ const HeroSection = () => {
   return (
     <HeroContainer>
       <HeroBg>
-        <VideoBg
-          playsinline
-          autoPlay
-          loop
-          muted
-          src={Video}
-          type="/video/mp4"
-        />
+        {!isMobile && (
+          <VideoBg
+            playsinline
+            autoPlay
+            loop
+            muted
+            src={Video}
+            type="/video/mp4"
+          />
+        )}
+        {isMobile && <PictureBg />}
       </HeroBg>
       <HeroContent>
         <HeroH1>

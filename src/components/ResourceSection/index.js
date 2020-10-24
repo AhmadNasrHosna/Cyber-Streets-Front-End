@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ResourceContainer,
   ResourcesWrapper,
@@ -13,27 +13,106 @@ import {
   Form,
   FormSelect,
   FormOption,
-  // LinkContainer,
-  // LinkWrapper,
-  // LinkIcon,
-  // LinkTitle,
-  // LoadMore,
-  // ButtonWrapper,
+  LinkContainer,
+  LinkWrapper,
+  LinkIcon,
+  LinkTitle,
+  LoadMore,
+  ButtonWrapper,
 } from "./ResourceElements";
+import { useQuery, gql } from "@apollo/client";
+import Loading from "../Loading";
+import { FaVideo, FaBook, FaGlobe } from "react-icons/fa";
 
-const ResourceSection = ({ data, fetchMore }) => {
+const RESOURCE_FRAGMENT = gql`
+  fragment resourceCollectionFrag on ResourceCollection {
+    total
+    items {
+      type
+      category
+      title
+      link
+      bgColor
+      color
+    }
+  }
+`;
 
+const MASS_COLLECTION = gql`
+  query($limit: Int) {
+    resourceCollection(limit: $limit) {
+      ...resourceCollectionFrag
+    }
+  }
+  ${RESOURCE_FRAGMENT}
+`;
+const MASS_COLLECTION_WITH_CAT = gql`
+  query($limit: Int, $category: String) {
+    resourceCollection(limit: $limit, where: { category: $category }) {
+      ...resourceCollectionFrag
+    }
+  }
+  ${RESOURCE_FRAGMENT}
+`;
+
+const Resource = ({ category, poorMansFetchMore, setLimit }) => {
+  const { loading, error, data } = useQuery(
+    category ? MASS_COLLECTION_WITH_CAT : MASS_COLLECTION,
+    {
+      variables: {
+        limit: poorMansFetchMore,
+        category,
+      },
+    }
+  );
 
   const handleClick = useCallback(() => {
-    fetchMore({
-      variables: {
-        skip:
-          data 
-            ? data.length
-            : 0,
-      },
-    });
-  }, [fetchMore, data]);
+    setLimit(poorMansFetchMore + 10);
+  }, [poorMansFetchMore, setLimit]);
+
+  if (error) return <p>Error</p>;
+  if (loading) return <Loading />;
+  return (
+    <>
+<LinkContainer>
+        {data.resourceCollection.items.map((resource) => (
+          <LinkWrapper
+            href={resource.link}
+            target="_blank"
+            key={resource.title}
+          >
+            <LinkIcon bgColor={resource.bgColor} color={resource.color}>
+              {resource.type === "video" ? (
+                <FaVideo color={resource.color} />
+              ) : resource.type === "article" ? (
+                <FaBook color={resource.color} />
+              ) : (
+                <FaGlobe color={resource.color} />
+              )}
+            </LinkIcon>
+            <LinkTitle>{resource.title}</LinkTitle>
+          </LinkWrapper>
+        ))}
+      </LinkContainer>
+      <ButtonWrapper>
+
+      <LoadMore
+        className="button"
+        onClick={handleClick}
+        disabled={
+          data.resourceCollection.total === data.resourceCollection.items.length
+        }
+      >
+        Load more
+      </LoadMore>
+      </ButtonWrapper>
+    </>
+  );
+};
+
+const ResourceSection = () => {
+  const [category, setCategory] = useState(null);
+  const [poorMansFetchMore, setLimit] = useState(10);
 
   return (
     <ResourceContainer lightBg={true} id="resource">
@@ -61,12 +140,14 @@ const ResourceSection = ({ data, fetchMore }) => {
             </ImgWrap>
           </Column2>
         </ResourceRow>
-        <Form action="">
+        
+      </ResourcesWrapper>
+      <Form action="">
           <FormSelect
-          // onChange={(e) => {
-          //   setCategory(e.target.value);
-          //   // setLimit(5);
-          // }}
+            onChange={(e) => {
+              setCategory(e.target.value);
+              setLimit(10);
+            }}
           >
             <FormOption value="">Filter by category</FormOption>
             <FormOption value="MEDIA">Media</FormOption>
@@ -94,19 +175,15 @@ const ResourceSection = ({ data, fetchMore }) => {
             <FormOption value="OTHER">Other</FormOption>
           </FormSelect>
         </Form>
-        <div className="list">
-          {data.map((resource, i) => (
-            <div key={resource.title} className="item">
-              {resource.title}
-            </div>
-          ))}
+        <div class="min-height-500">
+          <Resource
+            category={category}
+            poorMansFetchMore={poorMansFetchMore}
+            setLimit={setLimit}
+          />
         </div>
-
-        <button className="button" onClick={handleClick}>
-          Fetch!
-        </button>
-      </ResourcesWrapper>
     </ResourceContainer>
+    
   );
 };
 

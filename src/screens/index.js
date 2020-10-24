@@ -10,18 +10,8 @@ import Resource from "../components/ResourceSection";
 import Contact from "../components/ContactSection";
 import Footer from "../components/Footer";
 
-const MASS_COLLECTION = gql`
-query($skip: Int) {
-  resourceCollection(limit: 5, skip: $skip ) {
- items {
-   type
-   category
-   title
-   link
-   bgColor
-   color
- }
-},
+const SPLITSECTIONCOLLECTION = gql`
+query{
 splitSectionCollection(order: splitId_ASC) {
  items {
    splitId
@@ -46,7 +36,7 @@ splitSectionCollection(order: splitId_ASC) {
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { loading, error, data, fetchMore } = useQuery(MASS_COLLECTION, {
+  const { loading, error, data } = useQuery(SPLITSECTIONCOLLECTION, {
     variables: {
       skip: 0,
     },
@@ -67,7 +57,7 @@ const Home = () => {
       {data.splitSectionCollection.items.map((item) => {
         return <Split item={item} key={item.splitId} />;
       })}
-      <Resource data={data.resourceCollection.items} fetchMore={fetchMore}/>
+      <Resource/>
       <Contact />
       <Footer />
     </>

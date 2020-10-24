@@ -31,7 +31,7 @@ export const SplitRow = styled.div`
   align-items: center;
   grid-template-areas: ${({ left }) => (left ? `'col2 col1'` : `'col1 col2'`)};
 
-  @media screen and (max-width: 768px) {
+  @media screen and (max-width: 992px) {
     grid-template-areas: ${({ left }) =>
       left ? `'col1' 'col2'` : `'col1 col1' 'col2 col2'`};
   }
