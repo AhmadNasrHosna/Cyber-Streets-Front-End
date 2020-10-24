@@ -74,7 +74,7 @@ const Resource = ({ category, poorMansFetchMore, setLimit }) => {
   if (loading) return <Loading />;
   return (
     <>
-<LinkContainer>
+      <LinkContainer>
         {data.resourceCollection.items.map((resource) => (
           <LinkWrapper
             href={resource.link}
@@ -95,16 +95,16 @@ const Resource = ({ category, poorMansFetchMore, setLimit }) => {
         ))}
       </LinkContainer>
       <ButtonWrapper>
-
-      <LoadMore
-        className="button"
-        onClick={handleClick}
-        disabled={
-          data.resourceCollection.total === data.resourceCollection.items.length
-        }
-      >
-        Load more
-      </LoadMore>
+        <LoadMore
+          className="button"
+          onClick={handleClick}
+          disabled={
+            data.resourceCollection.total ===
+            data.resourceCollection.items.length
+          }
+        >
+          Load more
+        </LoadMore>
       </ButtonWrapper>
     </>
   );
@@ -140,50 +140,48 @@ const ResourceSection = () => {
             </ImgWrap>
           </Column2>
         </ResourceRow>
-        
       </ResourcesWrapper>
       <Form action="">
-          <FormSelect
-            onChange={(e) => {
-              setCategory(e.target.value);
-              setLimit(10);
-            }}
-          >
-            <FormOption value="">Filter by category</FormOption>
-            <FormOption value="MEDIA">Media</FormOption>
-            <FormOption value="TEDX">Ted Talks</FormOption>
-            <FormOption value="INTERNET SAFETY/AWARENESS">
-              Internet safety &amp; awareness
-            </FormOption>
-            <FormOption value="K-12/COMPUTER SCIENCE">
-              k-12 &amp; computer science
-            </FormOption>
-            <FormOption value="CODING">Programming</FormOption>
-            <FormOption value="CYBER/IT OPERATIONS">
-              Cyber &and; IT operations
-            </FormOption>
-            <FormOption value="ROBOTICS">Robotics</FormOption>
-            <FormOption value="CLOUD">Cloud</FormOption>
-            <FormOption value="SCIENCE">Science</FormOption>
-            <FormOption value="PROFESSIONAL DEVELOPMENT">
-              Professional Development
-            </FormOption>
-            <FormOption value="3D PRINTING">3D Printing</FormOption>
-            <FormOption value="ART">Art</FormOption>
-            <FormOption value="MOOC">Massive Open Online Courses</FormOption>
-            <FormOption value="GAMES">Games &amp; Challenges</FormOption>
-            <FormOption value="OTHER">Other</FormOption>
-          </FormSelect>
-        </Form>
-        <div class="min-height-500">
-          <Resource
-            category={category}
-            poorMansFetchMore={poorMansFetchMore}
-            setLimit={setLimit}
-          />
-        </div>
+        <FormSelect
+          onChange={(e) => {
+            setCategory(e.target.value);
+            setLimit(10);
+          }}
+        >
+          <FormOption value="">Filter by category</FormOption>
+          <FormOption value="MEDIA">Media</FormOption>
+          <FormOption value="TEDX">Ted Talks</FormOption>
+          <FormOption value="INTERNET SAFETY/AWARENESS">
+            Internet safety &amp; awareness
+          </FormOption>
+          <FormOption value="K-12/COMPUTER SCIENCE">
+            k-12 &amp; computer science
+          </FormOption>
+          <FormOption value="CODING">Programming</FormOption>
+          <FormOption value="CYBER/IT OPERATIONS">
+            Cyber &and; IT operations
+          </FormOption>
+          <FormOption value="ROBOTICS">Robotics</FormOption>
+          <FormOption value="CLOUD">Cloud</FormOption>
+          <FormOption value="SCIENCE">Science</FormOption>
+          <FormOption value="PROFESSIONAL DEVELOPMENT">
+            Professional Development
+          </FormOption>
+          <FormOption value="3D PRINTING">3D Printing</FormOption>
+          <FormOption value="ART">Art</FormOption>
+          <FormOption value="MOOC">Massive Open Online Courses</FormOption>
+          <FormOption value="GAMES">Games &amp; Challenges</FormOption>
+          <FormOption value="OTHER">Other</FormOption>
+        </FormSelect>
+      </Form>
+      <div className="min-height-500">
+        <Resource
+          category={category}
+          poorMansFetchMore={poorMansFetchMore}
+          setLimit={setLimit}
+        />
+      </div>
     </ResourceContainer>
-    
   );
 };
 
