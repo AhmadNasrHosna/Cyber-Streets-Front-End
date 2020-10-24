@@ -40,11 +40,12 @@ export const VideoBg = styled.video`
   object-fit: cover;
   background: #232a34;
 `;
-export const PictureBg = styled.div`
-  background-image: linear-gradient(rgba(#000, 0.6), rgba(#000, 0.6)),
-    url(../img/showcase.jpg);
+export const PictureBg = styled.img`
+  background: linear-gradient(rgba(#000, 0.6), rgba(#000, 0.6));
   background-size: cover;
   background-position: center;
+  height: 100%;
+  width: 100%;
 `;
 
 export const HeroContent = styled.div`

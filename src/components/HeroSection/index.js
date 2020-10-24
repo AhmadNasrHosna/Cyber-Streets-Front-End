@@ -36,7 +36,9 @@ const HeroSection = () => {
             type="/video/mp4"
           />
         )}
-        {isMobile && <PictureBg />}
+        {isMobile && (
+          <PictureBg src="/assets/images/showcase.jpg" alt="Cyber World" />
+        )}
       </HeroBg>
       <HeroContent>
         <HeroH1>
