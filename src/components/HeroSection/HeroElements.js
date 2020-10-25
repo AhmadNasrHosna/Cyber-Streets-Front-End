@@ -41,9 +41,10 @@ export const VideoBg = styled.video`
   background: #232a34;
 `;
 export const PictureBg = styled.img`
-  background: linear-gradient(rgba(#000, 0.6), rgba(#000, 0.6));
+  background: linear-gradient(rgba(#000, 0.5), rgba(#000, 0.5));
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
   height: 100%;
   width: 100%;
 `;
@@ -64,16 +65,36 @@ export const HeroH1 = styled.h1`
   text-align: center;
 
   @media screen and (max-width: 768px) {
-    font-size: 40px;
+    font-size: 56px;
   }
   @media screen and (max-width: 480px) {
-    font-size: 32px;
+    font-size: 40px;
   }
 `;
 
 export const HeroP = styled.p`
-  margin-top: 24px;
-  font-size: 1.5rem;
+  margin-top: 5px;
+  font-size: 1.1rem;
+  color: #fff;
+  /* width: 100%; */
+  text-align: center;
+  max-width: 600px;
+  /* font-style: italic; */
+
+  // @media screen and (max-width: 768px) {
+  //   font-size: 24px;
+  // }
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 480px) {
+    font-size: 0.9rem;
+  }
+`;
+
+export const HeroSummary = styled.p`
+  margin-top: 2rem;
+  font-size: 1.3rem;
   color: #fff;
   text-align: center;
   max-width: 600px;
@@ -81,12 +102,15 @@ export const HeroP = styled.p`
   // @media screen and (max-width: 768px) {
   //   font-size: 24px;
   // }
+  @media screen and (max-width: 768px) {
+    font-size: 1.2rem;
+  }
   @media screen and (max-width: 480px) {
-    font-size: 18px;
+    font-size: 0.9rem;
   }
 `;
 export const HeroBtnWrapper = styled.div`
-  margin-top: 32px;
+  margin-top: 1.7rem;
   display: flex;
   flex-direction: column;
   align-items: center;

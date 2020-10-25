@@ -124,10 +124,11 @@ const ResourceSection = () => {
               <Content darkText={true} className="split_cms">
                 Cyber Streets strives in sharing education resources to all.
                 Below you can find an exhaustive list of resources covering
-                everything from computer programming to enterneurship. "Be
-                knowledgeable in your niche, provide some information free of
-                charge, and share other trustworthy people's free resources
-                whenever possible..." - Heather Hart
+                everything from computer programming to entrepreneurship.
+                <br />
+                <br /> "Be knowledgeable in your niche, provide some information
+                free of charge, and share other trustworthy people's free
+                resources whenever possible..." - Heather Hart
               </Content>
             </TextWrapper>
           </Column1>
@@ -159,7 +160,7 @@ const ResourceSection = () => {
           </FormOption>
           <FormOption value="CODING">Programming</FormOption>
           <FormOption value="CYBER/IT OPERATIONS">
-            Cyber &and; IT operations
+            Cyber &amp; IT operations
           </FormOption>
           <FormOption value="ROBOTICS">Robotics</FormOption>
           <FormOption value="CLOUD">Cloud</FormOption>

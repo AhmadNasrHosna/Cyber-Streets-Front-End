@@ -10,6 +10,7 @@ import {
   ArrowForward,
   ArrowRight,
   PictureBg,
+  HeroSummary,
 } from "./HeroElements";
 import { useDeviceDetect } from "../../utils/utilities";
 
@@ -41,10 +42,15 @@ const HeroSection = () => {
         )}
       </HeroBg>
       <HeroContent>
-        <HeroH1>
-          Cyber Streets <span>&trade;</span>
-        </HeroH1>
-        <HeroP>Connecting the community through technology.</HeroP>
+        <div>
+          <HeroH1>Cyber Streets</HeroH1>
+
+          <HeroP>Connecting the community through technology</HeroP>
+        </div>
+        <HeroSummary>
+          A non-profit organization that paves the way to a future in the cyber
+          profession
+        </HeroSummary>
         <HeroBtnWrapper>
           <Button
             to="features"
